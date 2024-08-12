@@ -6,7 +6,13 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js",
-    "dev": "nodemon index.js"
+    "dev": "nodemon index.js",
+    "build:frontend": "npm --prefix C:/Users/TUSHAR/react/part2 run build",
+    "deldist":"shx rm -rf C:/Users/TUSHAR/react/tryNPMnew/dist",
+    "copyfile":"shx cp -r C:/Users/TUSHAR/react/part2/dist* C:/Users/TUSHAR/react/tryNPMnew/dist",
+    "copy:frontend": "shx rm -rf C:/Users/TUSHAR/react/tryNPMnew/dist && shx cp -r C:/Users/TUSHAR/react/part2/dist* C:/Users/TUSHAR/react/tryNPMnew/dist",
+    "build:ui": "npm run build:frontend && npm run copy:frontend",
+    "deploy:full": "npm run build:ui && git add . && git commit -m 'uibuild' && git push"
   },
   "author": "Tushar",
   "license": "MIT",
@@ -15,6 +21,7 @@
     "express": "^4.19.2"
   },
   "devDependencies": {
-    "nodemon": "^3.1.4"
+    "nodemon": "^3.1.4",
+    "shx": "^0.3.4"
   }
 }
