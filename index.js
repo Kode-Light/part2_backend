@@ -1,10 +1,25 @@
 const express = require('express')
+const mongoose = require('mongoose')
 const cors = require('cors')
 const app = express()
+
+const url = process.env.MONGODB_URI;
 
 app.use(express.static('dist'))
 app.use(express.json())
 // app.use(requestLogger)
+
+const password = process.argv[2]
+
+mongoose.set('strictQuery',false)
+mongoose.connect(url)
+
+const noteSchema = new mongoose.Schema({
+  content: String,
+  important: Boolean,
+})
+
+const Note = mongoose.model('Note',noteSchema)
 
 let notes = [
     {
@@ -26,7 +41,9 @@ let notes = [
 
 app.get('/',(request,response)=>{response.send('<h1>hello world</h1>')})
 
-app.get('/api/notes',(request, response)=>{response.json(notes)})
+app.get('/api/notes',(request, response)=>{
+  Note.find({}).then(note=>{response.json(notes)})
+})
 
 app.get('/api/notes/:id', (request, response) => {
     const id = Number(request.params.id)
